@@ -23,7 +23,7 @@ select{
   height: 2rem;
 }
 
-.notes{
+#notesSquare{
   display: flex;
   flex: 1;
   min-height: 50vh;
