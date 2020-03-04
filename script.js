@@ -1,5 +1,5 @@
 const noteSelector = document.querySelector("#noteSelector");
-const notesSquare = document.querySelector("#notesSquare")
+const notesSquare = document.querySelector("#notesSquare");
 
 const notes = ["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];
 
@@ -13,7 +13,7 @@ notes.forEach((note, index) => {
   const square = document.createElement("div");
   square.classList.add("note");
   square.textContent = note;
-  square.value = index;
+  square.id = note;
   notesSquare.appendChild(square);
 });
 
@@ -32,15 +32,40 @@ modesNames.forEach((mode, index) =>  {
   modeSelector.appendChild(option);
 });
 
+let notesInScale = [];
+
 function calculate(index, mode) {
-  let notesInScale = [];
-  mode.forEach(interval=> {
+  clear();
+  notesInScale = [];
+  modes[mode].forEach(interval=> {
     index +=  interval;
     index = index % 12;
-    notesInScale.push(index);
+    const square = document.querySelector(`#${notes[index]}`);
+    square.classList.add("inScale");
+    notesInScale.push(notes[index]);
   });
   return notesInScale;
 }
-for (var i = 0; i < 12; i++) {
-  console.log(calculate(i,major));
+
+function clear(){
+  notesInScale.forEach(note=> {
+    const square = document.querySelector(`#${note}`);
+    square.classList.remove("inScale");
+  })
 }
+
+let note = Number(noteSelector.value);
+let mode = Number(modeSelector.value);
+calculate(note, mode);
+
+noteSelector.addEventListener('change', () => {
+  note = Number(noteSelector.value);
+  mode = Number(modeSelector.value);
+  calculate(note, mode);
+});
+
+modeSelector.addEventListener('change', () => {
+  note = Number(noteSelector.value);
+  mode = Number(modeSelector.value);
+  calculate(note, mode);
+});
