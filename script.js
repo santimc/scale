@@ -1,7 +1,7 @@
 const noteSelector = document.querySelector("#noteSelector");
 const notesSquare = document.querySelector("#notesSquare");
 
-const notes = ["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];
+const notes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 
 notes.forEach((note, index) => {
   const option = document.createElement("option");
@@ -21,8 +21,9 @@ const modeSelector = document.querySelector("#modeSelector");
 
 const major = [2,2,1,2,2,2,1];
 const minor = [2,1,2,2,1,2,2];
-const modes = [major, minor];
-const modesNames = ["Major", "Minor"];
+const pentatonicMinor =  [3,2,2,3,2];
+const modes = [major, minor, pentatonicMinor];
+const modesNames = ["Major", "Minor", "Pentatonic Minor"];
 
 modesNames.forEach((mode, index) =>  {
   const option = document.createElement("option");
@@ -36,11 +37,10 @@ let notesInScale = [];
 
 function calculate(index, mode) {
   clear();
-  notesInScale = [];
   modes[mode].forEach(interval=> {
     index +=  interval;
     index = index % 12;
-    const square = document.querySelector(`#${notes[index]}`);
+    const square = document.getElementById(`${notes[index]}`);
     square.classList.add("inScale");
     notesInScale.push(notes[index]);
   });
@@ -49,9 +49,10 @@ function calculate(index, mode) {
 
 function clear(){
   notesInScale.forEach(note=> {
-    const square = document.querySelector(`#${note}`);
+    const square = document.getElementById(`${note}`);
     square.classList.remove("inScale");
   })
+  notesInScale = [];
 }
 
 let note = Number(noteSelector.value);
