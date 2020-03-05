@@ -3,13 +3,19 @@ const notesSquare = document.querySelector("#notesSquare");
 
 const notes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 
-notes.forEach((note, index) => {
-  const option = document.createElement("option");
-  option.classList.add("list");
-  option.textContent = note;
-  option.value = index;
-  noteSelector.appendChild(option);
+function arrayToOptions(array, selector) {
+  array.forEach((element, index) =>  {
+    const option = document.createElement("option");
+    option.classList.add("list");
+    option.textContent = element;
+    option.value = index;
+    selector.appendChild(option);
+  });
+}
 
+arrayToOptions(notes, noteSelector);
+
+notes.forEach((note, index) => {
   const square = document.createElement("div");
   square.classList.add("note");
   square.textContent = note;
@@ -25,13 +31,7 @@ const pentatonicMinor =  [3,2,2,3,2];
 const modes = [major, minor, pentatonicMinor];
 const modesNames = ["Major", "Minor", "Pentatonic Minor"];
 
-modesNames.forEach((mode, index) =>  {
-  const option = document.createElement("option");
-  option.classList.add("list");
-  option.textContent = mode;
-  option.value = index;
-  modeSelector.appendChild(option);
-});
+arrayToOptions(modesNames, modeSelector);
 
 let notesInScale = [];
 
@@ -55,18 +55,18 @@ function clear(){
   notesInScale = [];
 }
 
-let note = Number(noteSelector.value);
-let mode = Number(modeSelector.value);
-calculate(note, mode);
+function updateSquares(){
+  let note = Number(noteSelector.value);
+  let mode = Number(modeSelector.value);
+  calculate(note, mode);
+}
+
+updateSquares();
 
 noteSelector.addEventListener('change', () => {
-  note = Number(noteSelector.value);
-  mode = Number(modeSelector.value);
-  calculate(note, mode);
+  updateSquares()
 });
 
 modeSelector.addEventListener('change', () => {
-  note = Number(noteSelector.value);
-  mode = Number(modeSelector.value);
-  calculate(note, mode);
+  updateSquares()
 });
